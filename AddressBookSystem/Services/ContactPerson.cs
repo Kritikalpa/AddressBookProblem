@@ -8,9 +8,11 @@ namespace AddressBookSystem.Services
     {
         public string firstName, lastName, address, city, state, email;
         public long zip, phoneNumber;
+        public int id;
 
-        public ContactPerson(string firstName,string lastName, string address, string city, string state, string email, long zip, long phoneNumber)
+        public ContactPerson(int id, string firstName,string lastName, string address, string city, string state, string email, long zip, long phoneNumber)
         {
+            this.id = id;
             this.firstName = firstName;
             this.lastName = lastName;
             this.address = address;
