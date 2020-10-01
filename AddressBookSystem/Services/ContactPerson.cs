@@ -10,7 +10,8 @@ namespace AddressBookSystem.Services
         public long zip, phoneNumber;
         public int id;
 
-        public ContactPerson(int id, string firstName,string lastName, string address, string city, string state, string email, long zip, long phoneNumber)
+
+        public ContactPerson(int id, string firstName, string lastName, string address, string city, string state, string email, long zip, long phoneNumber)
         {
             this.id = id;
             this.firstName = firstName;
@@ -26,7 +27,7 @@ namespace AddressBookSystem.Services
         public void toString()
         {
             
-            Console.WriteLine(this.firstName + " " + this.lastName + ", " + this.address + ", " + this.city + ", " + this.state + ", " + this.zip + ", " + this.phoneNumber + ", " + this.email);
+            Console.WriteLine(this.id + ". " +this.firstName + " " + this.lastName + ", " + this.address + ", " + this.city + ", " + this.state + ", " + this.zip + ", " + this.phoneNumber + ", " + this.email);
         }
     }
 }

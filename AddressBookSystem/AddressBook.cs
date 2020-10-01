@@ -92,12 +92,13 @@ namespace AddressBookSystem
             int choice = 1, id = 1;
             
 
-            while(choice != 4)
+            while(choice != 5)
             {
                 Console.WriteLine("\n1. Add a Contact");
                 Console.WriteLine("2. View Address Book");
                 Console.WriteLine("3. Edit Contact");
-                Console.WriteLine("4. Exit\n");
+                Console.WriteLine("4. Delete Contact");
+                Console.WriteLine("5. Exit\n");
                 Console.WriteLine("Enter your choice");
                 choice = Convert.ToInt32(Console.ReadLine());
 
@@ -150,6 +151,13 @@ namespace AddressBookSystem
                         break;
 
                     case 4:
+                        Console.WriteLine("Enter the contact id that need to be deleted");
+                        int personId = Convert.ToInt32(Console.ReadLine());
+                        personList.RemoveAll(person => person.id == personId);
+                        Console.WriteLine("The contact is deleted");
+                        break;
+
+                    case 5:
                         Console.WriteLine("Thank you for using application.");
                         break;
 
