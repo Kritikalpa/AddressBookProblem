@@ -1,6 +1,6 @@
 ﻿using AddressBookSystem.Services;
 using System;
-
+using System.Collections.Generic;
 
 namespace AddressBookSystem
 {
@@ -8,49 +8,87 @@ namespace AddressBookSystem
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Address Book Program\n");
+            Console.WriteLine("Welcome to Address Book Program");
 
-            AddressBook addressBook = new AddressBook();
-            int choice = 1;
-            
-            while(choice != 5)
+            Dictionary<string, AddressBook> addressBookMap = new Dictionary<string, AddressBook>();
+
+            int addressBookChoice = 1;
+            AddressBook addressBook;
+
+            while (addressBookChoice != 3)
             {
-                Console.WriteLine("\n1. Add a Contact");
-                Console.WriteLine("2. View Address Book");
-                Console.WriteLine("3. Edit Contact");
-                Console.WriteLine("4. Delete Contact");
-                Console.WriteLine("5. Exit\n");
+                Console.WriteLine("\n1. Create new Address Book");
+                Console.WriteLine("2. Update existing Address Book");
+                Console.WriteLine("3. Exit");
                 Console.WriteLine("Enter your choice");
-                choice = Convert.ToInt32(Console.ReadLine());
-
-                switch (choice)
+                addressBookChoice = Convert.ToInt32(Console.ReadLine());
+                switch (addressBookChoice)
                 {
                     case 1:
-                        addressBook.AddContact();
+                        Console.WriteLine("\nEnter the name of address book");
+                        string bookName = Console.ReadLine();
+                        addressBookMap.Add(bookName, new AddressBook(bookName));
                         break;
 
                     case 2:
-                        addressBook.viewContacts();
-                        break;
+                        if (addressBookMap.Count != 0)
+                        {
+                            Console.WriteLine("\nEnter the Address Book Name");
+                            string name = Console.ReadLine();
+                            addressBook = addressBookMap[name];
+                            int choice = 1;
 
+                            while (choice != 5)
+                            {
+                                Console.WriteLine("\n1. Add a Contact");
+                                Console.WriteLine("2. View Address Book");
+                                Console.WriteLine("3. Edit Contact");
+                                Console.WriteLine("4. Delete Contact");
+                                Console.WriteLine("5. Back to main menu\n");
+                                Console.WriteLine("Enter your choice");
+                                choice = Convert.ToInt32(Console.ReadLine());
+
+                                switch (choice)
+                                {
+                                    case 1:
+                                        addressBook.AddContact();
+                                        break;
+
+                                    case 2:
+                                        addressBook.viewContacts();
+                                        break;
+
+                                    case 3:
+                                        addressBook.editContact();
+                                        break;
+
+                                    case 4:
+                                        addressBook.DeleteContact();
+                                        break;
+
+                                    case 5:
+                                        Console.WriteLine("Back to main menu\n");
+                                        break;
+
+                                    default:
+                                        break;
+
+
+                                }
+                            }
+                        }
+                        else
+                            Console.WriteLine("\nNo Address Book Available");
+                        break;
+                    
                     case 3:
-                        addressBook.editContact();
-                        break;
-
-                    case 4:
-                        addressBook.DeleteContact();
-                        break;
-
-                    case 5:
-                        Console.WriteLine("Thank you for using application.");
+                        Console.WriteLine("\nThank you for using the application");
                         break;
 
                     default:
                         break;
-
-
                 }
-            }    
+            }  
         }
     }
 }

@@ -9,6 +9,12 @@ namespace AddressBookSystem.Services
         private static Regex reEmail = new Regex(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z");
         private static Regex rePhone = new Regex(@"^[0-9]{10}$");
         private static int id = 1;
+        public string bookName;
+
+        public AddressBook(string bookName)
+        {
+            this.bookName = bookName;
+        }
 
         private List<ContactPerson> personList = new List<ContactPerson>();
 
