@@ -6,7 +6,9 @@ namespace AddressBookSystem.Services
 {
     class AddressBook
     {
-        private static Regex reEmail = new Regex(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z");
+        private static Regex reName = new Regex(@"^[a-zA-Z\s]+$");
+        private static Regex reZip = new Regex(@"^[0-9]{6}$");
+        private static Regex reEmail = new Regex(@"\A(?:[a-z0-9!#$%&'*.+/=?^_`{|}~-]+@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z");
         private static Regex rePhone = new Regex(@"^[0-9]{10}$");
         private static int id = 1;
         public string bookName;
@@ -24,8 +26,18 @@ namespace AddressBookSystem.Services
             Console.WriteLine("----------------");
             Console.WriteLine("Enter the first name:");
             string firstName = Console.ReadLine();
+            while (!reName.IsMatch(firstName))
+            {
+                Console.WriteLine("\nENTER A VALID fIRST NAME");
+                firstName = Console.ReadLine();
+            }
             Console.WriteLine("\nEnter the last name:");
             string lastName = Console.ReadLine();
+            while (!reName.IsMatch(lastName))
+            {
+                Console.WriteLine("\nENTER A VALID LAST NAME");
+                lastName = Console.ReadLine();
+            }
             Console.WriteLine("\nEnter the address:");
             string adddress = Console.ReadLine();
             Console.WriteLine("\nEnter the city:");
@@ -34,6 +46,11 @@ namespace AddressBookSystem.Services
             string state = Console.ReadLine();
             Console.WriteLine("\nEnter the zip:");
             long zip = long.Parse(Console.ReadLine());
+            while (!reZip.IsMatch(zip.ToString()))
+            {
+                Console.WriteLine("\nENTER A VALID EMAIL");
+                zip = long.Parse(Console.ReadLine());
+            }
             Console.WriteLine("\nEnter the email:");
             string email = Console.ReadLine();
             while (!reEmail.IsMatch(email))
