@@ -45,11 +45,11 @@ namespace AddressBookSystem.Services
             Console.WriteLine("\nEnter the state:");
             string state = Console.ReadLine();
             Console.WriteLine("\nEnter the zip:");
-            long zip = long.Parse(Console.ReadLine());
-            while (!reZip.IsMatch(zip.ToString()))
+            string zip = Console.ReadLine();
+            while (!reZip.IsMatch(zip))
             {
                 Console.WriteLine("\nENTER A VALID EMAIL");
-                zip = long.Parse(Console.ReadLine());
+                zip = Console.ReadLine();
             }
             Console.WriteLine("\nEnter the email:");
             string email = Console.ReadLine();
@@ -59,14 +59,14 @@ namespace AddressBookSystem.Services
                 email = Console.ReadLine();
             }
             Console.WriteLine("\nEnter the phone number:");
-            long phoneNumber = long.Parse(Console.ReadLine());
-            while (!rePhone.IsMatch(phoneNumber.ToString()))
+            string phoneNumber = Console.ReadLine();
+            while (!rePhone.IsMatch(phoneNumber))
             {
                 Console.WriteLine("\nENTER A VALID PHONE NUMBER");
-                phoneNumber = long.Parse(Console.ReadLine());
+                phoneNumber = Console.ReadLine();
             }
 
-            this.personList.Add(new ContactPerson(id, firstName, lastName, adddress, city, state, email, zip, phoneNumber));
+            this.personList.Add(new ContactPerson(id, firstName, lastName, adddress, city, state, email, long.Parse(zip), long.Parse(phoneNumber)));
             id++;
         }
 
@@ -81,12 +81,25 @@ namespace AddressBookSystem.Services
 
         public void editContact()
         {
-            Console.WriteLine("\nEnter the id");
-            int id = Convert.ToInt32(Console.ReadLine());
+            bool userInput = true;
+            int personId = 1;
+            while(userInput)
+            {
+                try
+                {
+                    Console.WriteLine("\nEnter the id");
+                    personId = Convert.ToInt32(Console.ReadLine());
+                    userInput = false;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             ContactPerson contactPerson = null;
             foreach (ContactPerson person in personList)
             {
-                if (person.id == id)
+                if (person.id == personId)
                 {
                     contactPerson = person;
                     break;
@@ -100,11 +113,21 @@ namespace AddressBookSystem.Services
                 case 1:
                     Console.WriteLine("Enter the first name:");
                     string firstName = Console.ReadLine();
+                    while (!reName.IsMatch(firstName))
+                    {
+                        Console.WriteLine("\nENTER A VALID fIRST NAME");
+                        firstName = Console.ReadLine();
+                    }
                     contactPerson.firstName = firstName;
                     break;
                 case 2:
                     Console.WriteLine("\nEnter the last name:");
                     string lastName = Console.ReadLine();
+                    while (!reName.IsMatch(lastName))
+                    {
+                        Console.WriteLine("\nENTER A VALID LAST NAME");
+                        lastName = Console.ReadLine();
+                    }
                     contactPerson.lastName = lastName;
                     break;
                 case 3:
@@ -124,8 +147,13 @@ namespace AddressBookSystem.Services
                     break;
                 case 6:
                     Console.WriteLine("\nEnter the zip:");
-                    long zip = long.Parse(Console.ReadLine());
-                    contactPerson.zip = zip;
+                    string zip = Console.ReadLine();
+                    while (!reZip.IsMatch(zip))
+                    {
+                        Console.WriteLine("\nENTER A VALID EMAIL");
+                        zip = Console.ReadLine();
+                    }
+                    contactPerson.zip = long.Parse(zip);
                     break;
                 case 7:
                     Console.WriteLine("\nEnter the email:");
@@ -139,13 +167,13 @@ namespace AddressBookSystem.Services
                     break;
                 case 8:
                     Console.WriteLine("\nEnter the phone number:");
-                    long phoneNumber = long.Parse(Console.ReadLine());
-                    while (!rePhone.IsMatch(phoneNumber.ToString()))
+                    string phoneNumber = Console.ReadLine();
+                    while (!rePhone.IsMatch(phoneNumber))
                     {
                         Console.WriteLine("\nENTER A VALID PHONE NUMBER");
-                        phoneNumber = long.Parse(Console.ReadLine());
+                        phoneNumber = Console.ReadLine();
                     }
-                    contactPerson.phoneNumber = phoneNumber;
+                    contactPerson.phoneNumber = long.Parse(phoneNumber);
                     break;
                 default:
                     break;
@@ -156,8 +184,21 @@ namespace AddressBookSystem.Services
 
         public void DeleteContact()
         {
-            Console.WriteLine("Enter the contact id that need to be deleted");
-            int personId = Convert.ToInt32(Console.ReadLine());
+            bool userInput = true;
+            int personId = 1;
+            while (userInput)
+            {
+                try
+                {
+                    Console.WriteLine("Enter the contact id that need to be deleted");
+                    personId = Convert.ToInt32(Console.ReadLine());
+                    userInput = false;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             this.personList.RemoveAll(person => person.id == personId);
             Console.WriteLine("The contact is deleted");
         }

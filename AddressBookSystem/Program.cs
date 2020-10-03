@@ -13,7 +13,7 @@ namespace AddressBookSystem
             Dictionary<string, AddressBook> addressBookMap = new Dictionary<string, AddressBook>();
 
             int addressBookChoice = 1;
-            AddressBook addressBook;
+            AddressBook addressBook = null;
 
             while (addressBookChoice != 3)
             {
@@ -21,7 +21,15 @@ namespace AddressBookSystem
                 Console.WriteLine("2. Update existing Address Book");
                 Console.WriteLine("3. Exit");
                 Console.WriteLine("Enter your choice");
-                addressBookChoice = Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    addressBookChoice = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                    break;
+                }
                 switch (addressBookChoice)
                 {
                     case 1:
@@ -33,9 +41,22 @@ namespace AddressBookSystem
                     case 2:
                         if (addressBookMap.Count != 0)
                         {
-                            Console.WriteLine("\nEnter the Address Book Name");
-                            string name = Console.ReadLine();
-                            addressBook = addressBookMap[name];
+                            bool addressBookExist = false;
+                            while (!addressBookExist)
+                            {
+                                try
+                                {
+                                    Console.WriteLine("\nEnter the Address Book Name");
+                                    string name = Console.ReadLine();
+                                    addressBook = addressBookMap[name];
+                                    addressBookExist = true;
+                                }
+                                catch (KeyNotFoundException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                            }
+                            
                             int choice = 1;
 
                             while (choice != 5)
@@ -46,7 +67,15 @@ namespace AddressBookSystem
                                 Console.WriteLine("4. Delete Contact");
                                 Console.WriteLine("5. Back to main menu\n");
                                 Console.WriteLine("Enter your choice");
-                                choice = Convert.ToInt32(Console.ReadLine());
+                                try
+                                {
+                                    choice = Convert.ToInt32(Console.ReadLine());
+                                }
+                                catch (FormatException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                    break;
+                                }
 
                                 switch (choice)
                                 {
