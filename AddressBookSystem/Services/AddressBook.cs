@@ -18,7 +18,7 @@ namespace AddressBookSystem.Services
             this.bookName = bookName;
         }
 
-        private List<ContactPerson> personList = new List<ContactPerson>();
+        public List<ContactPerson> personList = new List<ContactPerson>();
 
         public void AddContact()
         {
@@ -214,6 +214,12 @@ namespace AddressBookSystem.Services
             }
             this.personList.RemoveAll(person => person.id == personId);
             Console.WriteLine("The contact is deleted");
+        }
+
+        public List<ContactPerson> searchPersonByPlace(string place)
+        {
+            List<ContactPerson> persons = this.personList.FindAll(person => person.city.Equals(place) || person.state.Equals(place));
+            return persons;
         }
 
     }

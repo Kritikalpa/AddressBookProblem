@@ -15,11 +15,12 @@ namespace AddressBookSystem
             int addressBookChoice = 1;
             AddressBook addressBook = null;
 
-            while (addressBookChoice != 3)
+            while (addressBookChoice != 4)
             {
                 Console.WriteLine("\n1. Create new Address Book");
                 Console.WriteLine("2. Update existing Address Book");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. Search Person in a City or State");
+                Console.WriteLine("4. Exit");
                 Console.WriteLine("Enter your choice");
                 try
                 {
@@ -109,8 +110,23 @@ namespace AddressBookSystem
                         else
                             Console.WriteLine("\nNo Address Book Available");
                         break;
-                    
+
                     case 3:
+                        Console.WriteLine("\nEnter the place needed to be searched : ");
+                        string place = Console.ReadLine();
+                        Console.WriteLine("\nPerson found at the searched place are : ");
+                        foreach (KeyValuePair<string, AddressBook> entry in addressBookMap)
+                        {
+                            addressBook = entry.Value;
+                            List<ContactPerson> persons = addressBook.searchPersonByPlace(place);
+                            foreach(ContactPerson person in persons)
+                            {
+                                person.toString();
+                            }
+                        }
+                        break;
+                    
+                    case 4:
                         Console.WriteLine("\nThank you for using the application");
                         break;
 
