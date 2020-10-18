@@ -29,5 +29,22 @@ namespace AddressBookSystem.Services
             
             Console.WriteLine(this.id + ". " +this.firstName + " " + this.lastName + ", " + this.address + ", " + this.city + ", " + this.state + ", " + this.zip + ", " + this.phoneNumber + ", " + this.email);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            else
+            {
+                ContactPerson person = (ContactPerson)obj;
+                return (this.firstName == person.firstName) && (this.lastName == person.lastName)
+                    && (this.address == person.address) && (this.city == person.city) && (this.state == person.state)
+                    && (this.email == person.email) && (this.zip == person.zip) && (this.phoneNumber == person.phoneNumber);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

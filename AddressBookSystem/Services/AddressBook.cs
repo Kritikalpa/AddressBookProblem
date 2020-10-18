@@ -65,9 +65,22 @@ namespace AddressBookSystem.Services
                 Console.WriteLine("\nENTER A VALID PHONE NUMBER");
                 phoneNumber = Console.ReadLine();
             }
-
-            this.personList.Add(new ContactPerson(id, firstName, lastName, adddress, city, state, email, long.Parse(zip), long.Parse(phoneNumber)));
-            id++;
+            ContactPerson newPerson = new ContactPerson(id, firstName, lastName, adddress, city, state, email, long.Parse(zip), long.Parse(phoneNumber));
+            List<ContactPerson> persons = this.personList.FindAll(person => person.firstName.Equals(firstName));
+            bool flag = false;
+            foreach(ContactPerson person in persons){
+                flag = newPerson.Equals(person);
+                if (flag == true)
+                {
+                    Console.WriteLine("\nContact Already Exists");
+                    break;
+                }
+            }
+            if(flag == false)
+            {
+                this.personList.Add(newPerson);
+                id++;
+            }  
         }
 
         public void viewContacts()
