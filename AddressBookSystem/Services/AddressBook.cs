@@ -173,9 +173,9 @@ namespace AddressBookSystem.Services
                     entry = statePersonMap.First(entry => ((entry.Key.firstName).Equals(contactPerson.firstName)));
                     if (!entry.Key.Equals(null))
                     {
-                        cityPersonMap.Remove(entry.Key);
+                        statePersonMap.Remove(entry.Key);
                     }
-                    cityPersonMap.Add(contactPerson, state);
+                    statePersonMap.Add(contactPerson, state);
                     break;
                 case 6:
                     Console.WriteLine("\nEnter the zip:");
@@ -243,17 +243,20 @@ namespace AddressBookSystem.Services
 
         public void groupByCityOrState(string choice)
         {
+            int count = 0;
             switch (choice)
             {
                 case "city":
                     var personGroupedByCity = cityPersonMap.GroupBy(entry => entry.Value);
                     foreach(var group in personGroupedByCity)
                     {
-                        Console.WriteLine("Persons from city : {0}", group.Key);
+                        Console.WriteLine("\nPersons from city : {0}", group.Key);
                         foreach(var person in group)
                         {
                             Console.WriteLine("> " + person.Key.toString());
+                            count++;
                         }
+                        Console.WriteLine("Number of person in {0} : {1}", group.Key, count);
                     }
                     break;
 
@@ -261,11 +264,13 @@ namespace AddressBookSystem.Services
                     var personGroupedByState = statePersonMap.GroupBy(entry => entry.Value);
                     foreach (var group in personGroupedByState)
                     {
-                        Console.WriteLine("Persons from state : {0}", group.Key);
+                        Console.WriteLine("\nPersons from state : {0}", group.Key);
                         foreach (var person in group)
                         {
                             Console.WriteLine("> " + person.Key.toString());
+                            count++;
                         }
+                        Console.WriteLine("Number of person in {0} : {1}", group.Key, count);
                     }
                     break;
 
