@@ -60,13 +60,14 @@ namespace AddressBookSystem
                             
                             int choice = 1;
 
-                            while (choice != 5)
+                            while (choice != 6)
                             {
                                 Console.WriteLine("\n1. Add a Contact");
                                 Console.WriteLine("2. View Address Book");
                                 Console.WriteLine("3. Edit Contact");
                                 Console.WriteLine("4. Delete Contact");
-                                Console.WriteLine("5. Back to main menu\n");
+                                Console.WriteLine("5. View person by city/state");
+                                Console.WriteLine("6. Back to main menu\n");
                                 Console.WriteLine("Enter your choice");
                                 try
                                 {
@@ -97,6 +98,26 @@ namespace AddressBookSystem
                                         break;
 
                                     case 5:
+                                        Console.WriteLine("1. City\n2. State ");
+                                        Console.Write("Select : ");
+                                        int option = Convert.ToInt32(Console.ReadLine());
+                                        if(option == 1)
+                                        {
+                                            addressBook.groupByCityOrState("city");
+                                        }
+                                        else if(option == 2)
+                                        {
+                                            addressBook.groupByCityOrState("state");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Invalid input.");
+                                            break;
+                                        }
+                                        
+                                        break;
+
+                                    case 6:
                                         Console.WriteLine("Back to main menu\n");
                                         break;
 
@@ -114,14 +135,14 @@ namespace AddressBookSystem
                     case 3:
                         Console.WriteLine("\nEnter the place needed to be searched : ");
                         string place = Console.ReadLine();
-                        Console.WriteLine("\nPerson found at the searched place are : ");
+                        Console.WriteLine("\nPerson found at {0} are : ", place);
                         foreach (KeyValuePair<string, AddressBook> entry in addressBookMap)
                         {
                             addressBook = entry.Value;
                             List<ContactPerson> persons = addressBook.searchPersonByPlace(place);
                             foreach(ContactPerson person in persons)
                             {
-                                person.toString();
+                                Console.WriteLine(person.toString());
                             }
                         }
                         break;

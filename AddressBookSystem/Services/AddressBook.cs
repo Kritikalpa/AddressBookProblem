@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace AddressBookSystem.Services
@@ -19,6 +20,9 @@ namespace AddressBookSystem.Services
         }
 
         public List<ContactPerson> personList = new List<ContactPerson>();
+
+        Dictionary<ContactPerson, string> cityPersonMap = new Dictionary<ContactPerson, string>();
+        Dictionary<ContactPerson, string> statePersonMap = new Dictionary<ContactPerson, string>();
 
         public void AddContact()
         {
@@ -79,6 +83,8 @@ namespace AddressBookSystem.Services
             if(flag == false)
             {
                 this.personList.Add(newPerson);
+                this.cityPersonMap.Add(newPerson, city);
+                this.statePersonMap.Add(newPerson, state);
                 id++;
             }  
         }
@@ -88,7 +94,7 @@ namespace AddressBookSystem.Services
             Console.WriteLine("\nADDRESS BOOK\n------------------");
             foreach (ContactPerson person in personList)
             {
-                person.toString();
+                Console.WriteLine(person.toString());
             }
         }
 
@@ -96,7 +102,8 @@ namespace AddressBookSystem.Services
         {
             bool userInput = true;
             int personId = 1;
-            while(userInput)
+            KeyValuePair<ContactPerson, string> entry;
+            while (userInput)
             {
                 try
                 {
@@ -152,11 +159,23 @@ namespace AddressBookSystem.Services
                     Console.WriteLine("\nEnter the city:");
                     string city = Console.ReadLine();
                     contactPerson.city = city;
+                    entry = cityPersonMap.First(entry => ((entry.Key.firstName).Equals(contactPerson.firstName)));
+                    if (!entry.Key.Equals(null))
+                    {
+                        cityPersonMap.Remove(entry.Key);
+                    }
+                    cityPersonMap.Add(contactPerson, city);
                     break;
                 case 5:
                     Console.WriteLine("\nEnter the state:");
                     string state = Console.ReadLine();
                     contactPerson.state = state;
+                    entry = statePersonMap.First(entry => ((entry.Key.firstName).Equals(contactPerson.firstName)));
+                    if (!entry.Key.Equals(null))
+                    {
+                        cityPersonMap.Remove(entry.Key);
+                    }
+                    cityPersonMap.Add(contactPerson, state);
                     break;
                 case 6:
                     Console.WriteLine("\nEnter the zip:");
@@ -222,5 +241,35 @@ namespace AddressBookSystem.Services
             return persons;
         }
 
+        public void groupByCityOrState(string choice)
+        {
+            switch (choice)
+            {
+                case "city":
+                    var personGroupedByCity = cityPersonMap.GroupBy(entry => entry.Value);
+                    foreach(var group in personGroupedByCity)
+                    {
+                        Console.WriteLine("Persons from city : {0}", group.Key);
+                        foreach(var person in group)
+                        {
+                            Console.WriteLine("> " + person.Key.toString());
+                        }
+                    }
+                    break;
+
+                case "state":
+                    var personGroupedByState = statePersonMap.GroupBy(entry => entry.Value);
+                    foreach (var group in personGroupedByState)
+                    {
+                        Console.WriteLine("Persons from state : {0}", group.Key);
+                        foreach (var person in group)
+                        {
+                            Console.WriteLine("> " + person.Key.toString());
+                        }
+                    }
+                    break;
+
+            }
+        }
     }
 }

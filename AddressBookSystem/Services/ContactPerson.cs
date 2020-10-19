@@ -24,10 +24,10 @@ namespace AddressBookSystem.Services
             this.phoneNumber = phoneNumber;
         }
 
-        public void toString()
+        public string toString()
         {
             
-            Console.WriteLine(this.id + ". " +this.firstName + " " + this.lastName + ", " + this.address + ", " + this.city + ", " + this.state + ", " + this.zip + ", " + this.phoneNumber + ", " + this.email);
+            return this.id + ". " +this.firstName + " " + this.lastName + ", " + this.address + ", " + this.city + ", " + this.state + ", " + this.zip + ", " + this.phoneNumber + ", " + this.email;
         }
 
         public override bool Equals(object obj)
