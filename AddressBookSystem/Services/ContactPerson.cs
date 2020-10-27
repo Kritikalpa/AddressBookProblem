@@ -4,11 +4,17 @@ using System.Text;
 
 namespace AddressBookSystem.Services
 {
-    class ContactPerson
+    public class ContactPerson
     {
-        public string firstName, lastName, address, city, state, email;
-        public long zip, phoneNumber;
-        public int id;
+        public string firstName { get; set; }
+        public string lastName{ get; set; }
+        public string address { get; set; }
+        public string city { get; set; }
+        public string state { get; set; }
+        public string email { get; set; }
+        public long zip { get; set; }
+        public long phoneNumber { get; set; }
+        public int id { get; set; }
 
 
         public ContactPerson(int id, string firstName, string lastName, string address, string city, string state, string email, long zip, long phoneNumber)

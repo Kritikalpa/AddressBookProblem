@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -274,6 +275,32 @@ namespace AddressBookSystem.Services
                     }
                     break;
 
+            }
+        }
+        public void ReadContact()
+        {
+            string path = @"C:\Users\krtkl\source\repos\AddressBookSystem\AddressBookSystem\Services\ContactText.txt";
+            using (StreamReader sr = File.OpenText(path))
+            {
+                String s = "";
+                Console.WriteLine("Contact read from file successfully.\nAddress Book Name : {0} \n", this.bookName);
+                while((s = sr.ReadLine()) != null)
+                {
+                    Console.WriteLine(s);
+                }
+            }
+        }
+
+        public void WriteContact()
+        {
+            string path = @"C:\Users\krtkl\source\repos\AddressBookSystem\AddressBookSystem\Services\ContactText.txt";
+            using (StreamWriter sr = File.CreateText(path))
+            {
+                foreach(ContactPerson person in personList)
+                {
+                    sr.WriteLine(person.toString());
+                }
+                Console.WriteLine("Contacts inserted in file");
             }
         }
     }

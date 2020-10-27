@@ -60,14 +60,16 @@ namespace AddressBookSystem
                             
                             int choice = 1;
 
-                            while (choice != 6)
+                            while (choice != 8)
                             {
                                 Console.WriteLine("\n1. Add a Contact");
                                 Console.WriteLine("2. View Address Book");
                                 Console.WriteLine("3. Edit Contact");
                                 Console.WriteLine("4. Delete Contact");
                                 Console.WriteLine("5. View person by city/state");
-                                Console.WriteLine("6. Back to main menu\n");
+                                Console.WriteLine("6. Read Contact from file");
+                                Console.WriteLine("7. Write Contact to file");
+                                Console.WriteLine("8. Back to main menu\n");
                                 Console.WriteLine("Enter your choice");
                                 try
                                 {
@@ -118,9 +120,16 @@ namespace AddressBookSystem
                                         break;
 
                                     case 6:
-                                        Console.WriteLine("Back to main menu\n");
+                                        addressBook.ReadContact();
                                         break;
 
+                                    case 7:
+                                        addressBook.WriteContact();
+                                        break;
+
+                                    case 8:
+                                        Console.WriteLine("Back to main menu\n");
+                                        break;
                                     default:
                                         break;
 
