@@ -120,11 +120,11 @@ namespace AddressBookSystem
                                         break;
 
                                     case 6:
-                                        addressBook.ReadCSV();
+                                        addressBook.ReadJSON();
                                         break;
 
                                     case 7:
-                                        addressBook.WriteCSV();
+                                        addressBook.WriteJSON();
                                         break;
 
                                     case 8:
