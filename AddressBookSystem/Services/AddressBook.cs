@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -301,6 +303,34 @@ namespace AddressBookSystem.Services
                     sr.WriteLine(person.toString());
                 }
                 Console.WriteLine("Contacts inserted in file");
+            }
+        }
+
+        public void ReadCSV()
+        {
+            string path = @"C:\Users\krtkl\source\repos\AddressBookSystem\AddressBookSystem\Services\ContactCSV.csv";
+
+            using (var reader = new StreamReader(path))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                var records = csv.GetRecords<ContactPerson>().ToList();
+                Console.WriteLine("Read data successfull from csv file");
+                foreach (ContactPerson person in records)
+                {
+                    Console.WriteLine(person.toString());
+                }
+            }
+        }
+
+        public void WriteCSV()
+        {
+            string path = @"C:\Users\krtkl\source\repos\AddressBookSystem\AddressBookSystem\Services\ContactCSV.csv";
+
+            using (var writer = new StreamWriter(path))
+            using (var csvExport = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csvExport.WriteRecords(personList);
+                Console.WriteLine("Write data successfull to csv file");
             }
         }
     }
