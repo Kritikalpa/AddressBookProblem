@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,6 +13,9 @@ namespace AddressBookSystem.Services
 {
     class AddressBook
     {
+        public static string connectionString = "Data Source=(LocalDb)\\testServer;Initial Catalog=addressBook_service;Integrated Security=True";
+        SqlConnection connection = new SqlConnection(connectionString);
+
         private static Regex reName = new Regex(@"^[a-zA-Z\s]+$");
         private static Regex reZip = new Regex(@"^[0-9]{6}$");
         private static Regex reEmail = new Regex(@"\A(?:[a-z0-9!#$%&'*.+/=?^_`{|}~-]+@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z");
@@ -56,7 +61,7 @@ namespace AddressBookSystem.Services
             string zip = Console.ReadLine();
             while (!reZip.IsMatch(zip))
             {
-                Console.WriteLine("\nENTER A VALID EMAIL");
+                Console.WriteLine("\nENTER A VALID ZIP");
                 zip = Console.ReadLine();
             }
             Console.WriteLine("\nEnter the email:");
@@ -90,7 +95,7 @@ namespace AddressBookSystem.Services
                 this.cityPersonMap.Add(newPerson, city);
                 this.statePersonMap.Add(newPerson, state);
                 id++;
-            }  
+            }
         }
 
         public void viewContacts()
@@ -217,7 +222,64 @@ namespace AddressBookSystem.Services
             Console.WriteLine("Contact details updated");
         }
 
+        public void RetrieveDataFromDB(int choice)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("spRetrieveContact", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@choice", choice);
 
+                    connection.Open();
+
+                    SqlDataReader dr = command.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            ContactPerson person = new ContactPerson(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetString(6), (long)dr.GetInt32(7), (long)dr.GetInt32(8));
+                            List<ContactPerson> persons = this.personList.FindAll(person => person.firstName.Equals(dr.GetString(1)));
+                            bool flag = false;
+                            foreach (ContactPerson personOb in persons)
+                            {
+                                flag = person.Equals(personOb);
+                                if (flag == true)
+                                {
+                                    Console.WriteLine("ID {0}. Duplicate Entry Found.", dr.GetInt32(0));
+                                    break;
+                                }
+                            }
+                            if (flag == false)
+                            {
+                                this.personList.Add(person);
+                                this.cityPersonMap.Add(person, dr.GetString(4));
+                                this.statePersonMap.Add(person, dr.GetString(5));
+                                id++;
+                                Console.WriteLine(person.toString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+
+                    dr.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                //connection.Close();
+            }
+        }
         public void DeleteContact()
         {
             bool userInput = true;

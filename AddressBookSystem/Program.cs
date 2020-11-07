@@ -60,7 +60,7 @@ namespace AddressBookSystem
                             
                             int choice = 1;
 
-                            while (choice != 8)
+                            while (choice != 9)
                             {
                                 Console.WriteLine("\n1. Add a Contact");
                                 Console.WriteLine("2. View Address Book");
@@ -69,7 +69,8 @@ namespace AddressBookSystem
                                 Console.WriteLine("5. View person by city/state");
                                 Console.WriteLine("6. Read Contact from CSV");
                                 Console.WriteLine("7. Write Contact to CSV");
-                                Console.WriteLine("8. Back to main menu\n");
+                                Console.WriteLine("8. Retrieve Contact from database");
+                                Console.WriteLine("9. Back to main menu\n");
                                 Console.WriteLine("Enter your choice");
                                 try
                                 {
@@ -128,6 +129,13 @@ namespace AddressBookSystem
                                         break;
 
                                     case 8:
+                                        Console.WriteLine("\n1. Get All Contacts in DB");
+                                        Console.WriteLine("2. Get By City/State");
+                                        int x = Convert.ToInt32(Console.ReadLine());
+                                        addressBook.RetrieveDataFromDB(x);
+                                        break;
+
+                                    case 9:
                                         Console.WriteLine("Back to main menu\n");
                                         break;
                                     default:
