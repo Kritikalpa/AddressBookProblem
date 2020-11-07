@@ -35,6 +35,7 @@ namespace AddressBookSystem.Services
 
         public void AddContact()
         {
+            SqlConnection connection = new SqlConnection(connectionString);
             Console.WriteLine("Create a contact");
             Console.WriteLine("----------------");
             Console.WriteLine("Enter the first name:");
@@ -95,6 +96,38 @@ namespace AddressBookSystem.Services
                 this.cityPersonMap.Add(newPerson, city);
                 this.statePersonMap.Add(newPerson, state);
                 id++;
+            }
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("SpAddContact", this.connection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@first_name", firstName);
+                    command.Parameters.AddWithValue("@last_name", lastName);
+                    command.Parameters.AddWithValue("@address", adddress);
+                    command.Parameters.AddWithValue("@city", city);
+                    command.Parameters.AddWithValue("@state", state);
+                    command.Parameters.AddWithValue("@email", email);
+                    command.Parameters.AddWithValue("@zip", zip);
+                    command.Parameters.AddWithValue("@phone_number", phoneNumber);
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        Console.WriteLine("{0} rows affected", result);
+                    }
+                    Console.WriteLine("Error while Adding contact");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
             }
         }
 
